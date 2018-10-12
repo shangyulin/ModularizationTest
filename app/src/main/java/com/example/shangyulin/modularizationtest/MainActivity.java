@@ -2,19 +2,14 @@ package com.example.shangyulin.modularizationtest;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.android.arouter.facade.Postcard;
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.facade.callback.NavCallback;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.base.PermissionUtils;
 import com.yanzhenjie.permission.AndPermission;
@@ -31,12 +26,19 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Subscriber;
 
 @Route(path = "/main/MainActivity")
 public class MainActivity extends Activity {
 
     private TextView tv;
+
+    public static final String BASE_URL = "https://api.douban.com/v2/movie/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,11 +154,10 @@ public class MainActivity extends Activity {
             }
         });
 
+        // 反射
         findViewById(getResources().getIdentifier("button", "id", getPackageName())).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Student build = new Student.Builder(12, "nihao").sex(5).address("浙江").email("244049619@qq.com").phone("12345678901").build();
-                //String name = on("com.example.shangyulin.modularizationtest.People").create("shangyulin", 24, 0).call("getName").get();
                 try {
                     Class<?> clazz = Class.forName("com.example.shangyulin.modularizationtest.People");
                     Constructor<?> constructor = clazz.getDeclaredConstructor(String.class, int.class, int.class);
@@ -185,7 +186,37 @@ public class MainActivity extends Activity {
             }
         });
 
+        // 获取Android manifest中meta-data中的数据
+        // getPackageManager().getActivityInfo(getComponentName(), PackageManager.GET_META_DATA);
+        // 网络请求
+        findViewById(getResources().getIdentifier("rx", "id", getPackageName())).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(BASE_URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                        .build();
 
-        ///getPackageManager().getActivityInfo(getComponentName(), PackageManager.GET_META_DATA);
+                MovieService movieService = retrofit.create(MovieService.class);
+                movieService.getTop250(0, 20)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new DisposableObserver<MovieSubject>() {
+                            @Override
+                            public void onComplete() {
+
+                            }
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+                            @Override
+                            public void onNext(MovieSubject movieSubject) {
+                                
+                            }
+                        });
+            }
+        });
     }
 }
