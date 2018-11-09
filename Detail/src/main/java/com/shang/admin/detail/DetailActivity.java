@@ -10,29 +10,34 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.example.base.MovieService;
 import com.example.base.MovieSubject;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 @Route(path = "/detail/DetailActivity")
 public class DetailActivity extends Activity {
 
+    public static final String BASE_URL = "https://api.douban.com/v2/movie/";
+
     private ListView lv;
     private ProgressBar pb;
-    private static MovieSubject subject;
-
-    public DetailActivity() {
-    }
 
     private Observer<MovieSubject> observer = new Observer<MovieSubject>() {
         @Override
@@ -42,9 +47,7 @@ public class DetailActivity extends Activity {
 
         @Override
         public void onNext(MovieSubject t) {
-            Message msg = new Message();
-            msg.obj = t;
-            handler.sendMessage(msg);
+            lv.setAdapter(new DetailAdapter(t.getSubjects()));
         }
 
         @Override
@@ -58,19 +61,6 @@ public class DetailActivity extends Activity {
         }
     };
 
-    public Observer<MovieSubject> getObserver() {
-        return observer;
-    }
-
-    private Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            subject = (MovieSubject) msg.obj;
-            lv.setAdapter(new DetailAdapter(subject.getSubjects()));
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +68,18 @@ public class DetailActivity extends Activity {
         setContentView(R.layout.activity_detail);
         lv = DetailActivity.this.findViewById(R.id.lv);
         pb = DetailActivity.this.findViewById(R.id.pb);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build();
+
+        MovieService movieService = retrofit.create(MovieService.class);
+        movieService.getTop250(0, 20)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
     }
 
 
@@ -116,7 +118,9 @@ public class DetailActivity extends Activity {
                 view = convertView;
             }
             TextView title = view.findViewById(R.id.title);
+            //ImageView icon = view.findViewById(R.id.icon);
             title.setText(list.get(position).getTitle());
+            //list.get(position).getImages().getSmall();
             return view;
         }
     }

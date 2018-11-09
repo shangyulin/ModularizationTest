@@ -56,6 +56,7 @@ public class NewTextView extends AppCompatTextView {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        view_width = getMeasuredWidth();
         canvas.drawRect(0, 0, getMeasuredWidth(), getMeasuredHeight(), paint1);
         canvas.drawRect(10, 10, getMeasuredWidth() - 10, getMeasuredHeight() - 10, paint2);
         canvas.save();
@@ -67,7 +68,7 @@ public class NewTextView extends AppCompatTextView {
             }
             matrix.setTranslate(mTranslate, 0);
             gradient.setLocalMatrix(matrix);
-            postInvalidateDelayed(500);
+            postInvalidateDelayed(200);
         }
         canvas.restore();
     }

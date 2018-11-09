@@ -50,9 +50,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends Activity {
 
     private NewTextView tv;
-
     public static final String BASE_URL = "https://api.douban.com/v2/movie/";
-
 
     private Handler handler = new Handler(){
         @Override
@@ -92,49 +90,6 @@ public class MainActivity extends Activity {
                 }).observeOn(AndroidSchedulers.mainThread())// 下游观察者在主线程中执行
                 .subscribeOn(Schedulers.io())// 被观察者在子线程中执行
                 .subscribe(RxBus.getInstance());
-
-        // 支持背压Flowable
-        // 支持背压
-//        Flowable<String> flowable = Flowable.create(new FlowableOnSubscribe<String>() {
-//                            @Override
-//                            public void subscribe(FlowableEmitter<String> e) throws Exception {
-//                                e.onNext("1");
-//                                e.onNext("2");
-//                                e.onNext("3");
-//                                e.onNext("4");
-//                                e.onNext("5");
-//                                e.onNext("6");
-//                                e.onNext("7");
-//                                e.onComplete();
-//                            }
-//                        }
-//                , BackpressureStrategy.BUFFER);
-//
-//        Subscriber subscriber = new Subscriber() {
-//            @Override
-//            public void onSubscribe(Subscription s) {
-//                sub = s;
-//                sub.request(1);
-//            }
-//
-//            @Override
-//            public void onNext(Object o) {
-//                System.out.println((String)o);
-//                sub.request(1);
-//            }
-//
-//            @Override
-//            public void onError(Throwable t) {
-//
-//            }
-//
-//            @Override
-//            public void onComplete() {
-//
-//            }
-//        };
-//        flowable.subscribe(subscriber);
-
 
         tv = findViewById(getResources().getIdentifier("textView", "id", getPackageName()));
 
@@ -226,20 +181,6 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
 
                 ARouter.getInstance().build("/detail/DetailActivity").navigation();
-
-                DetailActivity detailActivity = new DetailActivity();
-
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(BASE_URL)
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                        .build();
-
-                MovieService movieService = retrofit.create(MovieService.class);
-                movieService.getTop250(0, 20)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(Schedulers.io())
-                        .subscribe(detailActivity.getObserver());
             }
         });
 
