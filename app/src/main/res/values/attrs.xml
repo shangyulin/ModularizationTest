@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="NewTextView">
+        <attr name="hahaha" format="string"/>
+        <attr name="hehehe" format="string"/>
+    </declare-styleable>
+</resources>

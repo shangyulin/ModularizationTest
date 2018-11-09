@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.example.shangyulin.modularizationtest"
-        minSdkVersion 15
+        minSdkVersion 18
         targetSdkVersion 26
         flavorDimensions "1"
         versionCode 1
@@ -38,7 +38,9 @@ dependencies {
 //    compile 'io.reactivex.rxjava2:rxjava:2.2.0'
 //    compile 'io.reactivex.rxjava2:rxandroid:2.0.2'
 //    compile 'com.yanzhenjie:permission:1.0.6'
+    //compile 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
     annotationProcessor 'com.alibaba:arouter-compiler:1.1.2.1'
     api project(':Pay')
     api project(':Login')
+    api project(':Detail')
 }

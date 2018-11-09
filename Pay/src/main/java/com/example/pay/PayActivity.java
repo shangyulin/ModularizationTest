@@ -27,14 +27,6 @@ public class PayActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_pay);
-//        findViewById(getResources().getIdentifier("pay", "id", getPackageName())).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                // 跳转到MainActivity
-//                ARouter.getInstance().build("/main/MainActivity").navigation();
-//                finish();
-//            }
-//        });
         grid = findViewById(getResources().getIdentifier("grid", "id", getPackageName()));
 
         sourceList = new ArrayList();
@@ -42,14 +34,11 @@ public class PayActivity extends Activity {
             sourceList.add(R.drawable.one);
         }
         grid.setAdapter(new GridAdapter());
-//        BitmapFactory.Options options = new BitmapFactory.Options();
-//        BitmapFactory.decodeResource(getResources(), R.drawable.one, options);
-//        int width = options.outWidth;
-//        int height = options.outHeight;
-//        int result = dp2px(this, 500);
-//        Toast.makeText(this, result + ":", Toast.LENGTH_SHORT).show();
     }
 
+    class ViewHolder{
+        ImageView photo;
+    }
 
     class GridAdapter extends BaseAdapter {
 
@@ -71,22 +60,18 @@ public class PayActivity extends Activity {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             View mView;
+            ViewHolder holder;
             if (view == null){
+                holder = new ViewHolder();
                 mView = View.inflate(PayActivity.this, R.layout.item_image, null);
+                holder.photo = mView.findViewById(getResources().getIdentifier("pay_image", "id", getPackageName()));
+                mView.setTag(holder);
             }else{
                 mView = view;
+                holder = (ViewHolder) mView.getTag();
             }
-            ImageView item = mView.findViewById(R.id.pay_image);
+            holder.photo.setImageResource(sourceList.get(i));
             return mView;
         }
-    }
-
-
-    /**
-     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
-     */
-    public static int dp2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
     }
 }

@@ -2,7 +2,11 @@ package com.example.shangyulin.modularizationtest;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.Window;
@@ -11,7 +15,13 @@ import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.example.base.MovieService;
+import com.example.base.MovieSubject;
 import com.example.base.PermissionUtils;
+import com.example.shangyulin.modularizationtest.View.NewTextView;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.shang.admin.detail.DetailActivity;
+import com.shang.admin.detail.DetailInit;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 import com.yanzhenjie.permission.Rationale;
@@ -19,26 +29,42 @@ import com.yanzhenjie.permission.RationaleListener;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Subscriber;
 
 @Route(path = "/main/MainActivity")
 public class MainActivity extends Activity {
 
-    private TextView tv;
+    private NewTextView tv;
 
     public static final String BASE_URL = "https://api.douban.com/v2/movie/";
+
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Date date = new Date();
+            SimpleDateFormat sfd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            tv.setText(sfd.format(date));
+            handler.sendEmptyMessageDelayed(0, 1000);
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,13 +185,19 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 try {
+                    // 反射类
                     Class<?> clazz = Class.forName("com.example.shangyulin.modularizationtest.People");
-                    Constructor<?> constructor = clazz.getDeclaredConstructor(String.class, int.class, int.class);
+                    // 构造方法
+                    Constructor<?> constructor = clazz.getDeclaredConstructor(String.class, int.class);
                     constructor.setAccessible(true);
-                    Object haha = constructor.newInstance("haha", 4, 2);
+                    Object haha = constructor.newInstance("haha", 4);
                     Method method = clazz.getDeclaredMethod("getName");
                     String content = (String) method.invoke(haha);
-                    tv.setText(content);
+                    Date date = new Date();
+                    SimpleDateFormat sfd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Toast.makeText(MainActivity.this, content, Toast.LENGTH_SHORT).show();
+                    tv.setText(sfd.format(date));
+                    handler.sendEmptyMessageDelayed(0, 1000);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -192,31 +224,41 @@ public class MainActivity extends Activity {
         findViewById(getResources().getIdentifier("rx", "id", getPackageName())).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                ARouter.getInstance().build("/detail/DetailActivity").navigation();
+
+                DetailActivity detailActivity = new DetailActivity();
+
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(BASE_URL)
                         .addConverterFactory(GsonConverterFactory.create())
-                        .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                         .build();
 
                 MovieService movieService = retrofit.create(MovieService.class);
                 movieService.getTop250(0, 20)
                         .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new DisposableObserver<MovieSubject>() {
-                            @Override
-                            public void onComplete() {
-
-                            }
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-                            @Override
-                            public void onNext(MovieSubject movieSubject) {
-                                
-                            }
-                        });
+                        .observeOn(Schedulers.io())
+                        .subscribe(detailActivity.getObserver());
             }
         });
+
+        findViewById(getResources().getIdentifier("exit", "id", getPackageName())).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        findViewById(getResources().getIdentifier("unload", "id", getPackageName())).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri packageURI = Uri.parse("package:".concat(getPackageName()));
+                Intent intent = new Intent(Intent.ACTION_DELETE);
+                intent.setData(packageURI);
+                startActivity(intent);
+            }
+        });
+
     }
 }

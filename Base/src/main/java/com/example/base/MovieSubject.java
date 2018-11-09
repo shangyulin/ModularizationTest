@@ -1,12 +1,13 @@
-package com.example.shangyulin.modularizationtest;
+package com.example.base;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by shangyulin on 2018/10/12.
  */
 
-public class MovieSubject {
+public class MovieSubject implements Serializable {
 
     private int count;
     private int start;
@@ -82,6 +83,25 @@ public class MovieSubject {
         private List<String> genres;
         private List<CastsBean> casts;
         private List<DirectorsBean> directors;
+
+
+        @Override
+        public String toString() {
+            return "SubjectsBean{" +
+                    "rating=" + rating +
+                    ", title='" + title + '\'' +
+                    ", collect_count=" + collect_count +
+                    ", original_title='" + original_title + '\'' +
+                    ", subtype='" + subtype + '\'' +
+                    ", year='" + year + '\'' +
+                    ", images=" + images +
+                    ", alt='" + alt + '\'' +
+                    ", id='" + id + '\'' +
+                    ", genres=" + genres +
+                    ", casts=" + casts +
+                    ", directors=" + directors +
+                    '}';
+        }
 
         public RatingBean getRating() {
             return rating;

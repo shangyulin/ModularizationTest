@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ModularizationTest</string>
+    <string name="accessibility_description">auto_reply</string>
 </resources>

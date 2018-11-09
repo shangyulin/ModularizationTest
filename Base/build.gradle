@@ -6,7 +6,7 @@ android {
 
 
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 18
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -42,6 +42,8 @@ dependencies {
     api 'org.greenrobot:eventbus:3.0.0'
     api 'io.reactivex.rxjava2:rxjava:2.2.0'
     api 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    api 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+    api 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     api 'com.yanzhenjie:permission:1.0.6'
     api 'com.squareup.retrofit2:retrofit:2.4.0'//retrofit
     api 'com.google.code.gson:gson:2.8.2'//Gson 库

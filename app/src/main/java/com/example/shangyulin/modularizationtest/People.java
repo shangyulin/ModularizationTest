@@ -30,13 +30,4 @@ public class People {
         this.age = age;
     }
 
-    public People(String name, int age, int type){
-        this.name = name;
-        this.age = age;
-        if (type == 0){
-            this.name += "-handsome";
-        }else{
-            this.name += "-beautiful";
-        }
-    }
 }
