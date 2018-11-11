@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.bumptech.glide.Glide;
 import com.example.base.MovieService;
 import com.example.base.MovieSubject;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -118,9 +119,13 @@ public class DetailActivity extends Activity {
                 view = convertView;
             }
             TextView title = view.findViewById(R.id.title);
-            //ImageView icon = view.findViewById(R.id.icon);
+            ImageView icon = view.findViewById(R.id.icon);
             title.setText(list.get(position).getTitle());
-            //list.get(position).getImages().getSmall();
+            Glide.with(DetailActivity.this)
+                    .load(list.get(position).getImages().getSmall())
+                    .centerCrop()
+                    .override(100, 100)
+                    .into(icon);
             return view;
         }
     }

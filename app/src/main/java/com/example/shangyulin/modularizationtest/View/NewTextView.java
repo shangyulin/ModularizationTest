@@ -63,12 +63,12 @@ public class NewTextView extends AppCompatTextView {
         super.onDraw(canvas);
         if (gradient != null){
             mTranslate += view_width / 5;
-            if (mTranslate >= 2 * view_width){
+            if (mTranslate >= 3 * view_width){
                 mTranslate = -view_width;
             }
             matrix.setTranslate(mTranslate, 0);
             gradient.setLocalMatrix(matrix);
-            postInvalidateDelayed(200);
+            postInvalidateDelayed(150);
         }
         canvas.restore();
     }

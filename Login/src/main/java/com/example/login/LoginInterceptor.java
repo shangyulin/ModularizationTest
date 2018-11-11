@@ -60,12 +60,6 @@ public class LoginInterceptor implements IInterceptor {
                             if (AndPermission.hasAlwaysDeniedPermission(BaseApplication.getTopActivity(), deniedPermissions)) {
                                 // 第一种：用AndPermission默认的提示语。
                                 AndPermission.defaultSettingDialog(BaseApplication.getTopActivity(), 300).show();
-                                // 第二种：用自定义的提示语。
-//                                AndPermission.defaultSettingDialog(BaseApplication.getTopActivity(), 400)
-//                                        .setTitle("权限申请失败")
-//                                        .setMessage("您拒绝了我们必要的一些权限，已经没法愉快的玩耍了，请在设置中授权！")
-//                                        .setPositiveButton("好，去设置")
-//                                        .show();
                             }
                         }
                     });
