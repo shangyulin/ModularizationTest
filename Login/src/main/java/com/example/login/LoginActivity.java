@@ -3,13 +3,17 @@ package com.example.login;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
+import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
+
+import org.json.JSONObject;
 
 import static android.provider.UserDictionary.Words.APP_ID;
 
@@ -29,13 +33,6 @@ public class LoginActivity extends AppCompatActivity {
 
         tv = findViewById(getResources().getIdentifier("result", "id", getPackageName()));
         tv.setText(content);
-
-//        findViewById(getResources().getIdentifier("topay", "id", getPackageName())).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                ARouter.getInstance().build("/pay/PayActivity").navigation();
-//            }
-//        });
 
         findViewById(getResources().getIdentifier("qq", "id", getPackageName())).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,15 +54,28 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mTencent.onActivityResult(requestCode, resultCode, data);
+        Tencent.onActivityResultData(requestCode, resultCode, data, loginListener);
     }
+
+    IUiListener loginListener = new BaseUiListener(this){
+
+        /**
+         * 登陆成功回调到该方法
+         * @param object
+         */
+        @Override
+        public void doComplete(JSONObject object) {
+            Log.d("giant", "doComplete: " + SystemClock.elapsedRealtime());
+            // TODO 登陆后逻辑
+        }
+    };
 
     public void login()
     {
         mTencent = Tencent.createInstance("101493768", this.getApplicationContext());
         if (!mTencent.isSessionValid())
         {
-            mTencent.login(this, "101493768", new BaseUiListener());
+            mTencent.login(this, "101493768", loginListener);
         }
     }
 }

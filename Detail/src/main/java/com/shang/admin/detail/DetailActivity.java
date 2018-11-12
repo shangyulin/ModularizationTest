@@ -123,8 +123,6 @@ public class DetailActivity extends Activity {
             title.setText(list.get(position).getTitle());
             Glide.with(DetailActivity.this)
                     .load(list.get(position).getImages().getSmall())
-                    .centerCrop()
-                    .override(100, 100)
                     .into(icon);
             return view;
         }

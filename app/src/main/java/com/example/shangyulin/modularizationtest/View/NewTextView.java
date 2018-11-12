@@ -1,7 +1,6 @@
 package com.example.shangyulin.modularizationtest.View;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
@@ -9,12 +8,9 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Shader;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatTextView;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.support.v7.widget.AppCompatTextView;
-import android.util.Log;
-
-import com.example.shangyulin.modularizationtest.R;
 
 public class NewTextView extends AppCompatTextView {
 
@@ -63,12 +59,12 @@ public class NewTextView extends AppCompatTextView {
         super.onDraw(canvas);
         if (gradient != null){
             mTranslate += view_width / 5;
-            if (mTranslate >= 3 * view_width){
+            if (mTranslate >= 2 * view_width){
                 mTranslate = -view_width;
             }
             matrix.setTranslate(mTranslate, 0);
             gradient.setLocalMatrix(matrix);
-            postInvalidateDelayed(150);
+            postInvalidateDelayed(100);
         }
         canvas.restore();
     }
