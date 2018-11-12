@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by shangyulin on 2018/9/4.
  */
@@ -11,6 +14,8 @@ import android.os.Bundle;
 public class BaseApplication extends Application {
 
     public static Activity context;
+
+    public static List<Activity> list = new ArrayList();
 
     @Override
     public void onCreate() {
@@ -54,5 +59,17 @@ public class BaseApplication extends Application {
 
     public static Activity getTopActivity(){
         return context;
+    }
+
+    public static void addActivityToStack(Activity activity){
+        list.add(activity);
+    }
+
+    public static void exitApp(){
+        for (Activity activity : list){
+            if (!activity.isDestroyed()){
+                activity.finish();
+            }
+        }
     }
 }

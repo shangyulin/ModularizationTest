@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.example.base.BaseApplication;
 import com.example.base.MovieService;
 import com.example.base.MovieSubject;
 import com.example.base.PermissionUtils;
@@ -69,6 +70,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+        BaseApplication.addActivityToStack(this);
         // 不支持背压
         Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
@@ -176,13 +178,13 @@ public class MainActivity extends Activity {
         // 获取Android manifest中meta-data中的数据
         // getPackageManager().getActivityInfo(getComponentName(), PackageManager.GET_META_DATA);
         // 网络请求
-        findViewById(getResources().getIdentifier("rx", "id", getPackageName())).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                ARouter.getInstance().build("/detail/DetailActivity").navigation();
-            }
-        });
+//        findViewById(getResources().getIdentifier("rx", "id", getPackageName())).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                ARouter.getInstance().build("/detail/DetailActivity").navigation();
+//            }
+//        });
 
         findViewById(getResources().getIdentifier("exit", "id", getPackageName())).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,5 +203,10 @@ public class MainActivity extends Activity {
             }
         });
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

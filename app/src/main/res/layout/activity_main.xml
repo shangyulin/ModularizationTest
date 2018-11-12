@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    android:background="#ff0000"
     tools:context="com.example.shangyulin.modularizationtest.MainActivity">
 
     <Button
@@ -11,9 +13,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/button"
-        android:layout_alignLeft="@+id/button"
         android:layout_alignStart="@+id/button"
-        android:text="路由跳转" />
+        android:layout_alignLeft="@+id/button"
+        android:text="登陆" />
 
     <Button
         android:id="@+id/per"
@@ -21,15 +23,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="申请权限"/>
+        android:text="申请权限" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/per"
-        android:layout_alignLeft="@+id/per"
         android:layout_alignStart="@+id/per"
+        android:layout_alignLeft="@+id/per"
         android:text="反射" />
 
     <com.example.shangyulin.modularizationtest.View.NewTextView
@@ -38,19 +40,19 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        app:hahaha="nishuone"
-        app:hehehe="dkjf"
         android:padding="10dp"
+        android:text="TextView"
         android:textSize="24sp"
-        android:text="TextView" />
+        app:hahaha="nishuone"
+        app:hehehe="dkjf" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/arouter"
-        android:layout_alignLeft="@+id/arouter"
         android:layout_alignStart="@+id/arouter"
+        android:layout_alignLeft="@+id/arouter"
         android:text="支付" />
 
     <Button
@@ -58,8 +60,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/button2"
-        android:layout_alignLeft="@+id/button2"
         android:layout_alignStart="@+id/button2"
+        android:layout_alignLeft="@+id/button2"
         android:text="图片" />
 
     <Button
@@ -67,24 +69,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/button2"
-        android:layout_toLeftOf="@+id/image"
         android:layout_alignTop="@+id/image"
-        android:text="网络请求" />
+        android:layout_toLeftOf="@+id/image"
+        android:text="网络请求"
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/exit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/per"
         android:layout_alignTop="@+id/per"
+        android:layout_toLeftOf="@+id/per"
         android:text="退出" />
 
     <Button
         android:id="@+id/unload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/per"
         android:layout_alignTop="@+id/per"
+        android:layout_toRightOf="@+id/per"
         android:text="卸载" />
 
 </RelativeLayout>

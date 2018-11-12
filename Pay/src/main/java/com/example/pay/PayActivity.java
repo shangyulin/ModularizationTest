@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.example.base.BaseApplication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class PayActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_pay);
+        BaseApplication.addActivityToStack(this);
         grid = findViewById(getResources().getIdentifier("grid", "id", getPackageName()));
 
         sourceList = new ArrayList();

@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.example.base.BaseApplication;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -37,7 +38,7 @@ public class ImageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
-
+        BaseApplication.addActivityToStack(this);
         imageView = findViewById(getResources().getIdentifier("image", "id", getPackageName()));
         String path = Environment.getExternalStorageDirectory() + "/";
         String filename = "woniu.jpg";
@@ -51,6 +52,7 @@ public class ImageActivity extends AppCompatActivity {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
             bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+            // 根据图片和屏幕的宽高来计算缩放比例
             options.inSampleSize = calculateInSampleSize(options, widthPixels, heightPixels);
 
             options.inJustDecodeBounds = false;

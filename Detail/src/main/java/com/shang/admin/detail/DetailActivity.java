@@ -17,8 +17,11 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.Glide;
+import com.example.base.BaseApplication;
+import com.example.base.MemoryCache.LocalCacheUtils;
 import com.example.base.MovieService;
 import com.example.base.MovieSubject;
+import com.example.base.Util;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.ArrayList;
@@ -48,6 +51,10 @@ public class DetailActivity extends Activity {
 
         @Override
         public void onNext(MovieSubject t) {
+            /**
+             * 网络请求返回的数据保存到本地
+             */
+            LocalCacheUtils.save(t);
             lv.setAdapter(new DetailAdapter(t.getSubjects()));
         }
 
@@ -67,20 +74,29 @@ public class DetailActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_detail);
+        BaseApplication.addActivityToStack(this);
         lv = DetailActivity.this.findViewById(R.id.lv);
         pb = DetailActivity.this.findViewById(R.id.pb);
+        // 从本地读取文件
+        Object object = LocalCacheUtils.read();
+        if (object ==  null){
+            // 网络获取
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .build();
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build();
-
-        MovieService movieService = retrofit.create(MovieService.class);
-        movieService.getTop250(0, 20)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
+            MovieService movieService = retrofit.create(MovieService.class);
+            movieService.getTop250(0, 20)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(observer);
+            Util.toastMessage(this, "网络读取数据");
+        }else{
+            Util.toastMessage(this, "本地读取数据");
+            lv.setAdapter(new DetailAdapter(((MovieSubject)object).getSubjects()));
+        }
     }
 
 
@@ -127,4 +143,5 @@ public class DetailActivity extends Activity {
             return view;
         }
     }
+
 }

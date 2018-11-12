@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 
@@ -64,9 +65,10 @@ public class LoginActivity extends AppCompatActivity {
          * @param object
          */
         @Override
-        public void doComplete(JSONObject object) {
+        public void doComplete(String object) {
             Log.d("giant", "doComplete: " + SystemClock.elapsedRealtime());
             // TODO 登陆后逻辑
+            ARouter.getInstance().build("/detail/DetailActivity").navigation();
         }
     };
 
