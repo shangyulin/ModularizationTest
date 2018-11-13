@@ -69,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
             Log.d("giant", "doComplete: " + SystemClock.elapsedRealtime());
             // TODO 登陆后逻辑
             ARouter.getInstance().build("/detail/DetailActivity").navigation();
+            finish();
         }
     };
 

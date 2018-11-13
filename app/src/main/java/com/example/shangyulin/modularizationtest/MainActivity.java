@@ -10,19 +10,13 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.Window;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.base.BaseApplication;
-import com.example.base.MovieService;
-import com.example.base.MovieSubject;
 import com.example.base.PermissionUtils;
 import com.example.shangyulin.modularizationtest.View.NewTextView;
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import com.shang.admin.detail.DetailActivity;
-import com.shang.admin.detail.DetailInit;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 import com.yanzhenjie.permission.Rationale;
@@ -37,15 +31,9 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
-import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 @Route(path = "/main/MainActivity")
 public class MainActivity extends Activity {
@@ -152,7 +140,7 @@ public class MainActivity extends Activity {
                     String content = (String) method.invoke(haha);
                     Date date = new Date();
                     SimpleDateFormat sfd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    Toast.makeText(MainActivity.this, content, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MainActivity.this, content, Toast.LENGTH_SHORT).show();
                     tv.setText(sfd.format(date));
                     handler.sendEmptyMessageDelayed(0, 1000);
                 } catch (Exception e) {

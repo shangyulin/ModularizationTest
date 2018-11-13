@@ -3,8 +3,6 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 26
 
-
-
     defaultConfig {
         minSdkVersion 18
         targetSdkVersion 26
@@ -39,7 +37,6 @@ dependencies {
     api 'io.reactivex.rxjava2:rxjava:2.2.0'
     api 'io.reactivex.rxjava2:rxandroid:2.0.2'
     api 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
-    api 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
     api 'com.squareup.retrofit2:retrofit:2.4.0'//retrofit
     api 'com.google.code.gson:gson:2.8.2'
     api 'com.squareup.retrofit2:converter-gson:2.3.0'//转换器，请求结果转换成Model

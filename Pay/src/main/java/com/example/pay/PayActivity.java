@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.bumptech.glide.Glide;
 import com.example.base.BaseApplication;
 
 import java.util.ArrayList;
@@ -72,7 +73,8 @@ public class PayActivity extends Activity {
                 mView = view;
                 holder = (ViewHolder) mView.getTag();
             }
-            holder.photo.setImageResource(sourceList.get(i));
+            Glide.with(PayActivity.this).load(sourceList.get(i)).into(holder.photo);
+//            holder.photo.setImageResource(sourceList.get(i));
             return mView;
         }
     }
