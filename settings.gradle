@@ -1,1 +1,1 @@
-include ':app', ':Base', ':Login', ':Pay', ':Detail', ':NetUtils'
+include ':app', ':Base', ':Login', ':Pay', ':Detail'

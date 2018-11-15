@@ -4,4 +4,21 @@
         <attr name="hahaha" format="string"/>
         <attr name="hehehe" format="string"/>
     </declare-styleable>
+
+    <declare-styleable name="TitleBarView">
+        <attr name="left_text" format="string"/>
+        <attr name="left_textColor" format="color"/>
+        <attr name="left_textSize" format="dimension|integer"/>
+        <attr name="left_bg" format="reference|color"/>
+
+        <attr name="title" format="string"/>
+        <attr name="title_textColor" format="color"/>
+        <attr name="title_textSize" format="dimension|integer"/>
+        <attr name="title_bg" format="reference|color"/>
+
+        <attr name="right_text" format="string"/>
+        <attr name="right_textColor" format="color"/>
+        <attr name="right_textSize" format="dimension"/>
+        <attr name="right_bg" format="reference|color"/>
+    </declare-styleable>
 </resources>

@@ -1,10 +1,10 @@
 package com.example.login;
 
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -14,12 +14,10 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 
-import org.json.JSONObject;
-
 import static android.provider.UserDictionary.Words.APP_ID;
 
 @Route(path = "/test/LoginActivity")
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends Activity {
 
     private TextView tv;
     private Tencent mTencent;

@@ -8,11 +8,11 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Shader;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatTextView;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.widget.TextView;
 
-public class NewTextView extends AppCompatTextView {
+public class NewTextView extends TextView {
 
     private Paint paint1;
     private Paint paint2;

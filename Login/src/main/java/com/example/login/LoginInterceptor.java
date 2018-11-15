@@ -36,7 +36,7 @@ public class LoginInterceptor implements IInterceptor {
             BaseApplication.getTopActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    PermissionUtils.getInstance().requestPermission(BaseApplication.getTopActivity(), 200, new String[]{Manifest.permission.WRITE_CONTACTS, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECEIVE_SMS}, new RationaleListener() {
+                    PermissionUtils.getInstance().requestPermission(BaseApplication.getTopActivity(), 200, new String[]{Manifest.permission.WRITE_CONTACTS, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECEIVE_SMS, Manifest.permission.READ_PHONE_STATE}, new RationaleListener() {
                         @Override
                         public void showRequestPermissionRationale(int requestCode, Rationale rationale) {
                             AndPermission.rationaleDialog(BaseApplication.getTopActivity(), rationale).show();

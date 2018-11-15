@@ -1,9 +1,5 @@
 package com.example.shangyulin.modularizationtest;
 
-import android.app.Activity;
-import android.app.Application;
-import android.os.Bundle;
-
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.base.ApplicationInitConfig;
 import com.example.base.BaseAppInit;

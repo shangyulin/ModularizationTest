@@ -1,5 +1,6 @@
 package com.example.shangyulin.modularizationtest;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,7 +9,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -20,6 +20,9 @@ import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.example.base.BaseApplication;
+import com.example.base.Util;
+import com.example.shangyulin.modularizationtest.View.TitleBarClickCallback;
+import com.example.shangyulin.modularizationtest.View.TitleBarView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -27,19 +30,36 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.UUID;
 @Route(path = "/main/ImageActivity")
-public class ImageActivity extends AppCompatActivity {
+public class ImageActivity extends Activity {
 
     private ImageView imageView;
     private int widthPixels;
     private int heightPixels;
     private Bitmap bitmap;
+    private TitleBarView titleBarView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
+        // 加入Activity栈
         BaseApplication.addActivityToStack(this);
-        imageView = findViewById(getResources().getIdentifier("image", "id", getPackageName()));
+        // 设置状态栏颜色为黑色
+        Util.MIUISetStatusBarLightMode(this, true);
+
+        titleBarView = findViewById(getResources().getIdentifier("titlebar", "id", getPackageName()));
+        titleBarView.setTitleBarCallbackListener(new TitleBarClickCallback() {
+            @Override
+            public void left_Callback() {
+                Util.toastMessage(ImageActivity.this, "点击了左键");
+        }
+
+            @Override
+            public void right_Callback() {
+                Util.toastMessage(ImageActivity.this, "点击了右键");
+            }
+        });
+        // 检查图片资源是否存在
         String path = Environment.getExternalStorageDirectory() + "/";
         String filename = "woniu.jpg";
         File file = new File(path + filename);
@@ -47,6 +67,7 @@ public class ImageActivity extends AppCompatActivity {
             Toast.makeText(ImageActivity.this, "测试用，当前图片文件不存在", Toast.LENGTH_SHORT).show();
             //createAsciiPic(path + filename)
         }else{
+            imageView = findViewById(getResources().getIdentifier("image", "id", getPackageName()));
             // 获取屏幕宽高
             getConfig();
             BitmapFactory.Options options = new BitmapFactory.Options();
