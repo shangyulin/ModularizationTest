@@ -191,6 +191,19 @@ public class MainActivity extends Activity {
             }
         });
 
+        findViewById(getResources().getIdentifier("sv", "id", getPackageName())).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ARouter.getInstance().build("/main/ScrollActivity").navigation();
+            }
+        });
+
+        findViewById(getResources().getIdentifier("huadong", "id", getPackageName())).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ARouter.getInstance().build("/main/huadongActivity").navigation();
+            }
+        });
     }
 
     @Override

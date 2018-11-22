@@ -78,7 +78,6 @@ public class ImageActivity extends Activity {
 
             options.inJustDecodeBounds = false;
             bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
-
             bitmap = compressByQuality(bitmap, 1*1024*1024, false);
 
             saveBitmap(bitmap);
