@@ -26,14 +26,14 @@
         android:supportsRtl="true"
         android:theme="@style/TranslucentTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ImageActivity" />
+        <activity android:name=".Activity.ImageActivity" />
         <!-- 微信自动回复服务注册 -->
         <service
             android:name=".Service.AutoService"
@@ -50,8 +50,9 @@
                 android:resource="@xml/auto_reply" />
         </service>
 
-        <activity android:name=".Scroll_Activity" />
-        <activity android:name=".HuadongActivity"></activity>
+        <activity android:name=".Activity.Scroll_Activity" />
+        <activity android:name=".Activity.HuadongActivity" />
+        <activity android:name=".Activity.GuaActivity"></activity>
     </application>
 
 </manifest>

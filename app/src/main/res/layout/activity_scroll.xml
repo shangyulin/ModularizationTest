@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.shangyulin.modularizationtest.Scroll_Activity">
+    tools:context="com.example.shangyulin.modularizationtest.Activity.Scroll_Activity">
     <com.example.shangyulin.modularizationtest.View.MyScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">

@@ -1,4 +1,4 @@
-package com.example.shangyulin.modularizationtest;
+package com.example.shangyulin.modularizationtest.Bean;
 
 /**
  * Created by shangyulin on 2018/8/21.

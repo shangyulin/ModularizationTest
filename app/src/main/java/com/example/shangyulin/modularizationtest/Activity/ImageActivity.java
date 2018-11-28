@@ -1,4 +1,4 @@
-package com.example.shangyulin.modularizationtest;
+package com.example.shangyulin.modularizationtest.Activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.example.base.BaseApplication;
 import com.example.base.Util;
+import com.example.shangyulin.modularizationtest.R;
 import com.example.shangyulin.modularizationtest.View.TitleBarClickCallback;
 import com.example.shangyulin.modularizationtest.View.TitleBarView;
 

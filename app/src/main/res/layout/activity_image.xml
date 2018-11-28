@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.shangyulin.modularizationtest.ImageActivity">
+    tools:context="com.example.shangyulin.modularizationtest.Activity.ImageActivity">
 
     <com.example.shangyulin.modularizationtest.View.TitleBarView
         android:id="@+id/titlebar"

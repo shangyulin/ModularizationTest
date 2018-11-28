@@ -82,6 +82,7 @@ public class MyScrollView extends ViewGroup {
                 endY = getScrollY();
                 int scrollDY = endY - startY;
                 if (scrollDY > 0) {
+                    // scrollDY大于0，下滑
                     if (scrollDY < heightPixels / 3) {
                         scroller.startScroll(0, getScrollY(), 0, -scrollDY);
                     } else {
@@ -89,6 +90,7 @@ public class MyScrollView extends ViewGroup {
                     }
                 } else {
                     if (-scrollDY > heightPixels / 3) {
+                        // 向下滚动
                         scroller.startScroll(0, getScrollY(), 0, -scrollDY);
                     } else {
                         scroller.startScroll(0, getScrollY(), 0, -heightPixels - scrollDY);

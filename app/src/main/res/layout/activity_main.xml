@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="#ff0000"
-    tools:context="com.example.shangyulin.modularizationtest.MainActivity">
+    tools:context="com.example.shangyulin.modularizationtest.Activity.MainActivity">
 
     <Button
         android:id="@+id/arouter"
@@ -106,5 +106,13 @@
         android:layout_above="@+id/sv"
         android:layout_alignEnd="@+id/arouter"
         android:text="滑动Test" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/huadong"
+        android:layout_centerHorizontal="true"
+        android:text="刮涂层" />
 
 </RelativeLayout>

@@ -1,28 +1,21 @@
 package com.example.shangyulin.modularizationtest.View;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Scroller;
+import android.widget.ImageView;
 
-public class ScrollerDemoView extends View {
-
+public class ScrollerDemoView extends ImageView {
 
     private Paint paint;
-    private Scroller scroller;
-    private int x;
-    private int y;
-    private int lastX;
-    private int lastY;
-    private int startX;
-    private int startY;
-    private int endY;
-    private int endX;
 
     public ScrollerDemoView(Context context) {
         this(context, null);
@@ -34,57 +27,40 @@ public class ScrollerDemoView extends View {
 
     public ScrollerDemoView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        scroller = new Scroller(context);
         paint = new Paint();
-        paint.setColor(Color.RED);
     }
 
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        canvas.drawRect(150, 150, 350, 350, paint);
-    }
 
-    @Override
-    public void computeScroll() {
-        super.computeScroll();
-        if (scroller.computeScrollOffset()){
-            ((View)getParent()).scrollTo(scroller.getCurrX(), scroller.getCurrY());
-            invalidate();
+        Drawable drawable = getDrawable();
+        if (null != drawable) {
+            Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+            Bitmap b = getRoundBitmap(bitmap);
+            final Rect rectSrc = new Rect(0, 0, b.getWidth(), b.getHeight());
+            final Rect rectDest = new Rect(0, 0, getWidth(), getHeight());
+            paint.reset();
+            canvas.drawBitmap(b, rectSrc, rectDest, paint);
+
+        } else {
+            super.onDraw(canvas);
         }
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        x = (int) event.getX();
-        y = (int) event.getY();
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                lastX = (int) event.getX();
-                lastY = (int) event.getY();
-                startX = getScrollX();
-                startY = getScrollY();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                int dx = x - lastX;
-                int dy = y - lastY;
-                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) getLayoutParams();
-                params.leftMargin = getLeft() + dx;
-                params.topMargin = getTop() + dy;
-                setLayoutParams(params);
-                break;
-            case MotionEvent.ACTION_UP:
-                endY = getScrollY();
-                endX = getScrollX();
-                int scroll_dy = endY - startY;
-                View parent = ((View) getParent());
-                if (scroll_dy > 0){
-                    scroller.startScroll(parent.getScrollX(), parent.getScrollY(), -endX, -endY);
-                }
 
-                break;
-        }
-        return true;
+    private Bitmap getRoundBitmap(Bitmap bitmap) {
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
+                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        final RectF rectF = new RectF(rect);
+        paint.setAntiAlias(true);
+
+        canvas.drawRoundRect(rectF, 80, 80, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+        return output;
     }
 }

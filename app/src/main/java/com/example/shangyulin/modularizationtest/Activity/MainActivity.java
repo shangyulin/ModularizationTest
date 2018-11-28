@@ -1,4 +1,4 @@
-package com.example.shangyulin.modularizationtest;
+package com.example.shangyulin.modularizationtest.Activity;
 
 import android.Manifest;
 import android.app.Activity;
@@ -16,6 +16,8 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.base.BaseApplication;
 import com.example.base.PermissionUtils;
+import com.example.shangyulin.modularizationtest.R;
+import com.example.shangyulin.modularizationtest.RxBus;
 import com.example.shangyulin.modularizationtest.View.NewTextView;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
@@ -131,7 +133,7 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 try {
                     // 反射类
-                    Class<?> clazz = Class.forName("com.example.shangyulin.modularizationtest.People");
+                    Class<?> clazz = Class.forName("com.example.shangyulin.modularizationtest.Bean.People");
                     // 构造方法
                     Constructor<?> constructor = clazz.getDeclaredConstructor(String.class, int.class);
                     constructor.setAccessible(true);
@@ -202,6 +204,13 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 ARouter.getInstance().build("/main/huadongActivity").navigation();
+            }
+        });
+
+        findViewById(getResources().getIdentifier("button3", "id", getPackageName())).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ARouter.getInstance().build("/main/GuaActivity").navigation();
             }
         });
     }
