@@ -139,49 +139,51 @@ public class ImageActivity extends Activity {
 
     public static Bitmap compressByQuality(Bitmap src, long maxByteSize, boolean recycle) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        src.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] bytes;
-        if((long)baos.size() <= maxByteSize) {
-            bytes = baos.toByteArray();
-        } else {
-            baos.reset();
-            src.compress(Bitmap.CompressFormat.JPEG, 0, baos);
-            if((long)baos.size() >= maxByteSize) {
+        if (src != null){
+            src.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] bytes;
+            if((long)baos.size() <= maxByteSize) {
                 bytes = baos.toByteArray();
             } else {
-                int st = 0;
-                int end = 100;
-                int mid = 0;
+                baos.reset();
+                src.compress(Bitmap.CompressFormat.JPEG, 0, baos);
+                if((long)baos.size() >= maxByteSize) {
+                    bytes = baos.toByteArray();
+                } else {
+                    int st = 0;
+                    int end = 100;
+                    int mid = 0;
 
-                while(st < end) {
-                    mid = (st + end) / 2;
-                    baos.reset();
-                    src.compress(Bitmap.CompressFormat.JPEG, mid, baos);
-                    int len = baos.size();
-                    if((long)len == maxByteSize) {
-                        break;
+                    while(st < end) {
+                        mid = (st + end) / 2;
+                        baos.reset();
+                        src.compress(Bitmap.CompressFormat.JPEG, mid, baos);
+                        int len = baos.size();
+                        if((long)len == maxByteSize) {
+                            break;
+                        }
+
+                        if((long)len > maxByteSize) {
+                            end = mid - 1;
+                        } else {
+                            st = mid + 1;
+                        }
                     }
 
-                    if((long)len > maxByteSize) {
-                        end = mid - 1;
-                    } else {
-                        st = mid + 1;
+                    if(end == mid - 1) {
+                        baos.reset();
+                        src.compress(Bitmap.CompressFormat.JPEG, st, baos);
                     }
-                }
 
-                if(end == mid - 1) {
-                    baos.reset();
-                    src.compress(Bitmap.CompressFormat.JPEG, st, baos);
+                    bytes = baos.toByteArray();
                 }
-
-                bytes = baos.toByteArray();
             }
+            if(recycle && !src.isRecycled()) {
+                src.recycle();
+            }
+            return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
         }
-
-        if(recycle && !src.isRecycled()) {
-            src.recycle();
-        }
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        return null;
     }
 
     public static Bitmap createAsciiPic(final String path, Context context) {

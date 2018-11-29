@@ -2,7 +2,11 @@ package com.example.login;
 
 import android.Manifest;
 import android.content.Context;
-import android.support.annotation.NonNull;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.Settings;
+import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.Postcard;
 import com.alibaba.android.arouter.facade.annotation.Interceptor;
@@ -10,10 +14,7 @@ import com.alibaba.android.arouter.facade.callback.InterceptorCallback;
 import com.alibaba.android.arouter.facade.template.IInterceptor;
 import com.example.base.BaseApplication;
 import com.example.base.PermissionUtils;
-import com.yanzhenjie.permission.AndPermission;
-import com.yanzhenjie.permission.PermissionListener;
-import com.yanzhenjie.permission.Rationale;
-import com.yanzhenjie.permission.RationaleListener;
+import com.example.base.ResultCallback;
 
 import java.util.List;
 
@@ -36,24 +37,32 @@ public class LoginInterceptor implements IInterceptor {
             BaseApplication.getTopActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    PermissionUtils.getInstance().requestPermission(BaseApplication.getTopActivity(), 200, new String[]{Manifest.permission.WRITE_CONTACTS, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECEIVE_SMS, Manifest.permission.READ_PHONE_STATE}, new RationaleListener() {
+                    PermissionUtils.requestPermission(BaseApplication.getTopActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE}, new ResultCallback() {
                         @Override
-                        public void showRequestPermissionRationale(int requestCode, Rationale rationale) {
-                            AndPermission.rationaleDialog(BaseApplication.getTopActivity(), rationale).show();
-                        }
-                    }, new PermissionListener() {
-                        @Override
-                        public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
+                        public void onSuccessed() {
                             // 成功获取到所有权限，放行
                             callback.onContinue(postcard);
                         }
 
                         @Override
-                        public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
-                            // 是否有不再提示并拒绝的权限。
-                            if (AndPermission.hasAlwaysDeniedPermission(BaseApplication.getTopActivity(), deniedPermissions)) {
-                                // 第一种：用AndPermission默认的提示语。
-                                AndPermission.defaultSettingDialog(BaseApplication.getTopActivity(), 300).show();
+                        public void onFail(List<String> list) {
+                            Toast.makeText(BaseApplication.getTopActivity(), "获取权限失败", Toast.LENGTH_LONG).show();
+                            // 大于6.0
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                if (!Settings.canDrawOverlays(BaseApplication.getTopActivity())) {
+                                    Toast.makeText(BaseApplication.getTopActivity(), "请开启悬浮窗权限", Toast.LENGTH_SHORT).show();
+                                    //8.0以上
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        Intent intent = new Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
+                                        BaseApplication.getTopActivity().startActivity(intent);
+                                    }
+                                    //6.0-8.0
+                                    else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                        Intent intent = new Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
+                                        intent.setData(Uri.parse("package:" + BaseApplication.getTopActivity().getPackageName()));
+                                        BaseApplication.getTopActivity().startActivity(intent);
+                                    }
+                                }
                             }
                         }
                     });
@@ -63,24 +72,32 @@ public class LoginInterceptor implements IInterceptor {
             BaseApplication.getTopActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    PermissionUtils.getInstance().requestPermission(BaseApplication.getTopActivity(), 200, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, new RationaleListener() {
+                    PermissionUtils.requestPermission(BaseApplication.getTopActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE}, new ResultCallback() {
                         @Override
-                        public void showRequestPermissionRationale(int requestCode, Rationale rationale) {
-                            AndPermission.rationaleDialog(BaseApplication.getTopActivity(), rationale).show();
-                        }
-                    }, new PermissionListener() {
-                        @Override
-                        public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
+                        public void onSuccessed() {
                             // 成功获取到所有权限，放行
                             callback.onContinue(postcard);
                         }
 
                         @Override
-                        public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
-                            // 是否有不再提示并拒绝的权限。
-                            if (AndPermission.hasAlwaysDeniedPermission(BaseApplication.getTopActivity(), deniedPermissions)) {
-                                // 第一种：用AndPermission默认的提示语。
-                                AndPermission.defaultSettingDialog(BaseApplication.getTopActivity(), 300).show();
+                        public void onFail(List<String> list) {
+                            Toast.makeText(BaseApplication.getTopActivity(), "获取权限失败", Toast.LENGTH_LONG).show();
+                            // 大于6.0
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                if (!Settings.canDrawOverlays(BaseApplication.getTopActivity())) {
+                                    Toast.makeText(BaseApplication.getTopActivity(), "请开启悬浮窗权限", Toast.LENGTH_SHORT).show();
+                                    //8.0以上
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        Intent intent = new Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
+                                        BaseApplication.getTopActivity().startActivity(intent);
+                                    }
+                                    //6.0-8.0
+                                    else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                        Intent intent = new Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
+                                        intent.setData(Uri.parse("package:" + BaseApplication.getTopActivity().getPackageName()));
+                                        BaseApplication.getTopActivity().startActivity(intent);
+                                    }
+                                }
                             }
                         }
                     });

@@ -52,7 +52,20 @@
 
         <activity android:name=".Activity.Scroll_Activity" />
         <activity android:name=".Activity.HuadongActivity" />
-        <activity android:name=".Activity.GuaActivity"></activity>
+        <activity android:name=".Activity.GuaActivity" />
+        <activity android:name=".Activity.CircleImageActivity" />
+        <activity android:name=".Activity.IconSelectActivity"></activity>
+        <provider
+            android:authorities="com.example.demo.fileprovider"
+            android:name="android.support.v4.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_path">
+
+            </meta-data>
+        </provider>
     </application>
 
 </manifest>

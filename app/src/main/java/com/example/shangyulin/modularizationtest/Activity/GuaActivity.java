@@ -36,6 +36,7 @@ public class GuaActivity extends AppCompatActivity {
     private ViewPager viewPager;
 
     private List<Integer> list = new ArrayList();
+    private Paint paint;
 
 
     @Override
@@ -43,6 +44,9 @@ public class GuaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gua);
         Util.MIUISetStatusBarLightMode(this, true);
+        paint = new Paint();
+        paint.setStrokeCap(Paint.Cap.ROUND);
+        paint.setStrokeJoin(Paint.Join.ROUND);
         addData();
         viewPager = findViewById(getResources().getIdentifier("vp", "id", getPackageName()));
         viewPager.setAdapter(new MyViewPagerAdapter());
@@ -78,7 +82,8 @@ public class GuaActivity extends AppCompatActivity {
             Bitmap bit = BitmapFactory.decodeResource(getResources(), R.drawable.bg2);
             final Bitmap out = Bitmap.createBitmap(bit.getWidth(), bit.getHeight(), bit.getConfig());
             Canvas canvas = new Canvas(out);
-            canvas.drawBitmap(bit, new Matrix(), new Paint());
+
+            canvas.drawBitmap(bit, new Matrix(), paint);
 
             cop.setBackground(new BitmapDrawable(out));
             cop.setOnTouchListener(new View.OnTouchListener() {

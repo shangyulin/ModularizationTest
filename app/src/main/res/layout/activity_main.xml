@@ -18,20 +18,11 @@
         android:text="登陆" />
 
     <Button
-        android:id="@+id/per"
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="申请权限" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/per"
-        android:layout_alignStart="@+id/per"
-        android:layout_alignLeft="@+id/per"
         android:text="反射" />
 
     <com.example.shangyulin.modularizationtest.View.NewTextView
@@ -65,29 +56,19 @@
         android:text="图片" />
 
     <Button
-        android:id="@+id/rx"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/button2"
-        android:layout_alignTop="@+id/image"
-        android:layout_toLeftOf="@+id/image"
-        android:text="网络请求"
-        android:visibility="gone"/>
-
-    <Button
         android:id="@+id/exit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/per"
-        android:layout_toLeftOf="@+id/per"
+        android:layout_alignTop="@+id/button"
+        android:layout_toLeftOf="@+id/button"
         android:text="退出" />
 
     <Button
         android:id="@+id/unload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/per"
-        android:layout_toRightOf="@+id/per"
+        android:layout_alignTop="@+id/button"
+        android:layout_toRightOf="@+id/button"
         android:text="卸载" />
 
     <Button
@@ -105,7 +86,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/sv"
         android:layout_alignEnd="@+id/arouter"
-        android:text="滑动Test" />
+        android:text="圆角矩形" />
 
     <Button
         android:id="@+id/button3"
@@ -114,5 +95,21 @@
         android:layout_above="@+id/huadong"
         android:layout_centerHorizontal="true"
         android:text="刮涂层" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button3"
+        android:layout_alignStart="@+id/arouter"
+        android:text="圆形图片" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button4"
+        android:layout_alignStart="@+id/arouter"
+        android:text="裁剪头像" />
 
 </RelativeLayout>

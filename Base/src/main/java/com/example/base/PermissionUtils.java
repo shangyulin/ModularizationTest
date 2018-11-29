@@ -1,10 +1,11 @@
 package com.example.base;
 
-import android.app.Activity;
+import android.content.Context;
 
+import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
-import com.yanzhenjie.permission.PermissionListener;
-import com.yanzhenjie.permission.RationaleListener;
+
+import java.util.List;
 
 /**
  * Created by shangyulin on 2018/8/20.
@@ -24,11 +25,17 @@ public class PermissionUtils {
         return PermissionHolder.utils;
     }
 
-    public void requestPermission(Activity context, int requestCode, String[] permission, RationaleListener rationaleListener, PermissionListener listener){
-        AndPermission.with(context)
-                .requestCode(requestCode)
-                .permission(permission)
-                .rationale(rationaleListener)
-                .callback(listener).start();
+    public static void requestPermission(final Context context, String[] requestPermission, final ResultCallback callback) {
+        AndPermission.with(context).runtime().permission(requestPermission).onGranted(new Action<List<String>>() {
+            @Override
+            public void onAction(List<String> strings) {
+                callback.onSuccessed();
+            }
+        }).onDenied(new Action<List<String>>() {
+            @Override
+            public void onAction(List<String> strings) {
+                callback.onFail(strings);
+            }
+        }).start();
     }
 }
